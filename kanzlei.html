@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anwälte & Kanzleien — JuraNXT</title>
+  <style>
+    :root{--navy:#0f1f3d;--blue:#1a3a6b;--accent:#2a7de1;--teal:#00b4c8;--light:#f4f7fb;--white:#ffffff;--gray:#6b7a99;--text:#1a1f36;--radius:12px;--shadow:0 4px 24px rgba(10,30,70,.10);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',Arial,sans-serif;color:var(--text);background:var(--white);line-height:1.65;}
+    #lang-bar{background:var(--navy);display:flex;justify-content:flex-end;padding:.5rem 2rem;gap:.5rem;}
+    #lang-bar button{background:transparent;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);padding:.2rem .8rem;border-radius:20px;cursor:pointer;font-size:.82rem;transition:all .2s;}
+    #lang-bar button.active,#lang-bar button:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+    nav{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+    .logo{font-size:1.4rem;font-weight:800;color:#fff;text-decoration:none;}.logo span{color:var(--teal);}
+    .back-link{color:rgba(255,255,255,.8);text-decoration:none;font-size:.9rem;transition:color .2s;}
+    .back-link:hover{color:var(--teal);}
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,#1a4a8a 100%);color:#fff;padding:5rem 2rem 4rem;text-align:center;}
+    .hero-badge{display:inline-block;background:rgba(0,180,200,.18);border:1px solid rgba(0,180,200,.4);color:var(--teal);padding:.3rem 1rem;border-radius:20px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+    .hero h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.15;margin-bottom:1.2rem;}
+    .hero h1 em{font-style:normal;color:var(--teal);}
+    .hero p.lead{font-size:1.1rem;color:rgba(255,255,255,.82);max-width:580px;margin:0 auto 2.5rem;}
+    .btn-primary{background:var(--accent);color:#fff;padding:.85rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .2s;display:inline-block;margin:.4rem;}
+    .btn-primary:hover{background:var(--teal);color:var(--navy);}
+    .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);padding:.85rem 2rem;border-radius:8px;font-weight:600;font-size:1rem;text-decoration:none;transition:all .2s;display:inline-block;margin:.4rem;}
+    .btn-outline:hover{border-color:var(--teal);color:var(--teal);}
+    section{padding:5rem 2rem;}
+    .container{max-width:1100px;margin:0 auto;}
+    .section-label{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;}
+    h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:1rem;}
+    .section-intro{color:var(--gray);font-size:1.05rem;max-width:620px;margin-bottom:3rem;}
+    .profile-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;}
+    .profile-inner h2{color:var(--navy);}
+    .schwerpunkt-list{list-style:none;margin-top:1.5rem;}
+    .schwerpunkt-list li{display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 0;border-bottom:1px solid #e4eaf5;}
+    .schwerpunkt-list li:last-child{border:none;}
+    .schwerpunkt-list .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:.35rem;}
+    .schwerpunkt-list strong{display:block;color:var(--navy);font-weight:700;margin-bottom:.2rem;}
+    .schwerpunkt-list span{font-size:.88rem;color:var(--gray);}
+    .kanzlei-box{background:var(--light);border-radius:var(--radius);padding:2rem;}
+    .kanzlei-box h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:1rem;}
+    .kanzlei-box p{font-size:.9rem;color:var(--gray);margin-bottom:.6rem;}
+    .kanzlei-box a{color:var(--accent);text-decoration:none;font-weight:600;}
+    .tools-section{background:var(--light);}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .tool-card{background:var(--white);border-radius:var(--radius);padding:2rem;border-top:4px solid var(--accent);transition:box-shadow .2s;}
+    .tool-card:hover{box-shadow:var(--shadow);}
+    .tool-tag{display:inline-block;background:rgba(42,125,225,.12);color:var(--accent);padding:.15rem .65rem;border-radius:12px;font-size:.75rem;font-weight:700;margin-bottom:.8rem;}
+    .tool-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
+    .tool-card p{font-size:.88rem;color:var(--gray);}
+    .mitglied-section{background:var(--white);}
+    .mitglied-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .mitglied-card{background:var(--light);border-radius:var(--radius);padding:1.5rem;text-align:center;}
+    .mitglied-card strong{display:block;color:var(--navy);font-weight:700;margin-bottom:.3rem;font-size:.95rem;}
+    .mitglied-card span{font-size:.82rem;color:var(--gray);}
+    .cta-section{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;text-align:center;padding:5rem 2rem;}
+    .cta-section h2{color:#fff;margin-bottom:1rem;}
+    .cta-section p{color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 2.5rem;}
+    .cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:800px;margin:0 auto;}
+    .cta-card{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:1.5rem;text-align:center;text-decoration:none;color:#fff;transition:all .2s;}
+    .cta-card:hover{background:rgba(255,255,255,.2);border-color:var(--teal);}
+    .cta-card .icon{font-size:2rem;margin-bottom:.7rem;display:block;}
+    .cta-card strong{display:block;font-weight:700;margin-bottom:.3rem;}
+    .cta-card small{color:rgba(255,255,255,.7);font-size:.82rem;}
+    footer{background:var(--navy);color:rgba(255,255,255,.6);padding:2.5rem 2rem;text-align:center;}
+    footer a{color:var(--teal);text-decoration:none;}
+    .footer-links{display:flex;gap:2rem;justify-content:center;margin:1.2rem 0;flex-wrap:wrap;}
+    .en{display:none;}
+    body.lang-en .de{display:none;}
+    body.lang-en .en{display:revert;}
+    @media(max-width:768px){.profile-inner{grid-template-columns:1fr;gap:2rem;}}
+  </style>
+</head>
+<body>
+<div id="lang-bar">
+  <button class="active" onclick="setLang('de')">DE</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+<nav>
+  <a href="index.html" class="logo">Jura<span>NXT</span></a>
+  <a href="index.html" class="back-link de">← Zurück zur Startseite</a>
+  <a href="index.html" class="back-link en">← Back to home</a>
+</nav>
+
+<header class="hero">
+  <p class="hero-badge de">Anwälte & Kanzleien</p>
+  <p class="hero-badge en">Lawyers & Law Firms</p>
+  <h1 class="de">Recht. Digital.<br/><em>Aus der Praxis.</em></h1>
+  <h1 class="en">Law. Digital.<br/><em>From practice.</em></h1>
+  <p class="lead de">KI-Werkzeuge für Sozialrecht, Verwaltungsrecht und IT-Recht — entwickelt von einem Anwalt für Anwälte.</p>
+  <p class="lead en">AI tools for social law, administrative law and IT law — developed by a lawyer for lawyers.</p>
+  <a href="#profil" class="btn-primary de">Zum Kanzlei-Profil</a>
+  <a href="#profil" class="btn-primary en">View law firm profile</a>
+  <a href="#tools" class="btn-outline de">KI-Tools entdecken</a>
+  <a href="#tools" class="btn-outline en">Discover AI tools</a>
+</header>
+
+<section id="profil">
+  <div class="profile-inner">
+    <div>
+      <p class="section-label de">Anwaltliches Profil</p>
+      <p class="section-label en">Legal profile</p>
+      <h2 class="de">Ingo Röthlingshöfer — Rechtsanwalt</h2>
+      <h2 class="en">Ingo Röthlingshöfer — Attorney at Law</h2>
+      <p class="de" style="color:var(--gray);margin-bottom:1.5rem;">Tätig seit 1993, zuletzt in der Kanzlei Bassimir & Kollegen, Neustadt an der Weinstraße. Zulassung bei der Rechtsanwaltskammer Zweibrücken.</p>
+      <p class="en" style="color:var(--gray);margin-bottom:1.5rem;">Practising since 1993, currently at Bassimir & Partners, Neustadt an der Weinstraße. Admitted to the Bar Association Zweibrücken.</p>
+      <ul class="schwerpunkt-list">
+        <li><span class="dot"></span><div><strong class="de">Verwaltungsrecht / Sozialrecht</strong><strong class="en">Administrative / Social Law</strong><span class="de">SGB VIII, SGB IX, Widerspruchsverfahren, Bescheidanfechtung — aus 24 Jahren kommunaler Praxis.</span><span class="en">SGB VIII, SGB IX, objection procedures, challenging decisions — from 24 years of municipal practice.</span></div></li>
+        <li><span class="dot"></span><div><strong>Erbrecht</strong><span class="de">Testamentsgestaltung, Erbauseinandersetzung, Pflichtteilsrecht — privat und unternehmerisch.</span><span class="en">Will drafting, inheritance disputes, compulsory portion — private and business contexts.</span></div></li>
+        <li><span class="dot"></span><div><strong class="de">IT-Recht & Datenschutz</strong><strong class="en">IT Law & Data Protection</strong><span class="de">DSGVO-Compliance, Datenschutzverletzungen, Vertragsgestaltung für digitale Dienstleistungen.</span><span class="en">GDPR compliance, data breaches, contract design for digital services.</span></div></li>
+      </ul>
+    </div>
+    <div class="kanzlei-box">
+      <h3 class="de">Kanzlei Bassimir & Kollegen</h3>
+      <h3 class="en">Bassimir & Partners</h3>
+      <p class="de">📍 Neustadt an der Weinstraße, Rheinland-Pfalz</p>
+      <p class="en">📍 Neustadt an der Weinstraße, Rhineland-Palatinate</p>
+      <p style="margin:1rem 0;font-size:.88rem;color:var(--gray);" class="de">Für mandatsbezogene Anfragen und Terminvereinbarungen:</p>
+      <p style="margin:1rem 0;font-size:.88rem;color:var(--gray);" class="en">For mandate-related enquiries and appointments:</p>
+      <a href="mailto:iroeth1@outlook.de" class="de">✉ iroeth1@outlook.de</a>
+      <a href="mailto:iroeth1@outlook.de" class="en">✉ iroeth1@outlook.de</a>
+      <p style="margin-top:1rem;font-size:.85rem;color:var(--gray);" class="de">☎ +49 6321 481148</p>
+      <p style="margin-top:1rem;font-size:.85rem;color:var(--gray);" class="en">☎ +49 6321 481148</p>
+      <hr style="border:none;border-top:1px solid #e4eaf5;margin:1.5rem 0;" />
+      <p style="font-size:.82rem;color:var(--gray);" class="de"><strong>Mitgliedschaften:</strong><br/>DAV – Sozialrecht · Erbrecht · IT-Recht<br/>Deutscher Verein (DV)<br/>Deutscher Sozialgerichtstag</p>
+      <p style="font-size:.82rem;color:var(--gray);" class="en"><strong>Memberships:</strong><br/>DAV – Social Law · Inheritance Law · IT Law<br/>Deutscher Verein (DV)<br/>Deutscher Sozialgerichtstag</p>
+    </div>
+  </div>
+</section>
+
+<section id="tools" class="tools-section">
+  <div class="container">
+    <p class="section-label de">KI-Werkzeuge für Kanzleien</p>
+    <p class="section-label en">AI tools for law firms</p>
+    <h2 class="de">Von einem Anwalt entwickelt</h2>
+    <h2 class="en">Developed by a practising lawyer</h2>
+    <p class="section-intro de">Alle Tools entstanden aus dem konkreten Bedarf der anwaltlichen und verwaltungsrechtlichen Praxis.</p>
+    <p class="section-intro en">All tools emerged from the concrete needs of legal and administrative practice.</p>
+    <div class="tools-grid">
+      <div class="tool-card"><span class="tool-tag de">Sozialrecht</span><span class="tool-tag en">Social Law</span><h3>BleibeKompass</h3><p class="de">Systematische Statusermittlung im Aufenthaltsrecht — für die Mandantenberatung und Antragsgestaltung.</p><p class="en">Systematic status determination in immigration law — for client advice and application drafting.</p></div>
+      <div class="tool-card"><span class="tool-tag" style="background:rgba(0,180,200,.12);color:var(--teal);">Praxis</span><h3>Xenia</h3><p class="de">Vollständige Praxisverwaltungssoftware mit KI-Modul für Berichte und Dokumentenverarbeitung. DSGVO-konform, self-hosted.</p><p class="en">Complete practice management software with AI module for reports and document processing. GDPR-compliant, self-hosted.</p></div>
+      <div class="tool-card"><span class="tool-tag de">IT-Recht</span><span class="tool-tag en">IT Law</span><h3 class="de">DSGVO-Prüfassistent (in Entwicklung)</h3><h3 class="en">GDPR Compliance Checker (in development)</h3><p class="de">Strukturierte Prüfung von Datenschutzkonzepten und Verarbeitungsverzeichnissen für Mandanten.</p><p class="en">Structured review of data protection concepts and processing records for clients.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="mitglied-section">
+  <div class="container">
+    <p class="section-label de">Fachvereinigungen</p>
+    <p class="section-label en">Professional associations</p>
+    <h2 class="de">Aktiv vernetzt</h2>
+    <h2 class="en">Actively networked</h2>
+    <div class="mitglied-grid">
+      <div class="mitglied-card"><strong>DAV</strong><span class="de">AG Sozialrecht</span><span class="en">Working Group Social Law</span></div>
+      <div class="mitglied-card"><strong>DAV</strong><span>AG Erbrecht</span></div>
+      <div class="mitglied-card"><strong>DAV</strong><span class="de">AG IT-Recht</span><span class="en">Working Group IT Law</span></div>
+      <div class="mitglied-card"><strong class="de">Deutscher Verein</strong><strong class="en">Deutscher Verein (DV)</strong><span class="de">Öffentliche & private Fürsorge</span><span class="en">Public & private welfare</span></div>
+      <div class="mitglied-card"><strong>Dt. Sozialgerichtstag</strong><span class="de">Fachtagung Sozialrecht</span><span class="en">Social Law Conference</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" class="cta-section">
+  <div class="container">
+    <p class="section-label" style="color:var(--teal);">Kontakt</p>
+    <h2 class="de">Direkt Kontakt aufnehmen</h2>
+    <h2 class="en">Get in touch directly</h2>
+    <p class="de">Mandatsanfrage, Kooperation oder Tool-Lizenz — ich freue mich über Ihre Nachricht.</p>
+    <p class="en">Mandate enquiry, cooperation or tool licence — I look forward to hearing from you.</p>
+    <div class="cta-grid">
+      <a href="mailto:iroeth1@outlook.de?subject=Mandatsanfrage&body=Hallo Herr Röthlingshöfer," class="cta-card">
+        <span class="icon">⚖️</span>
+        <strong class="de">Mandatsanfrage</strong><strong class="en">Mandate enquiry</strong>
+        <small class="de">Verwaltungs-, Sozial-, IT-Recht</small><small class="en">Admin, social, IT law</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=Kanzlei-Kooperation JuraNXT&body=Hallo Herr Röthlingshöfer," class="cta-card">
+        <span class="icon">🤝</span>
+        <strong class="de">Kooperation</strong><strong class="en">Cooperation</strong>
+        <small class="de">Tool-Einsatz in Ihrer Kanzlei</small><small class="en">Tools for your law firm</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=Demo BleibeKompass / Xenia&body=Hallo Herr Röthlingshöfer," class="cta-card">
+        <span class="icon">🖥️</span>
+        <strong class="de">Tool-Demo</strong><strong class="en">Tool demo</strong>
+        <small class="de">BleibeKompass oder Xenia live</small><small class="en">BleibeKompass or Xenia live</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="logo">Jura<span style="color:var(--teal)">NXT</span></a>
+  <p class="de">Juristische Digitalität · Ingo Röthlingshöfer, Rechtsanwalt</p>
+  <p class="en">Legal Digitality · Ingo Röthlingshöfer, Attorney at Law</p>
+  <div class="footer-links">
+    <a href="impressum.html" class="de">Impressum</a><a href="impressum.html" class="en">Legal Notice</a>
+    <a href="datenschutz.html" class="de">Datenschutz</a><a href="datenschutz.html" class="en">Privacy</a>
+    <a href="index.html" class="de">Startseite</a><a href="index.html" class="en">Home</a>
+  </div>
+  <p style="font-size:.8rem;margin-top:1rem;opacity:.5;">© 2026 Ingo Röthlingshöfer · Neustadt an der Weinstraße</p>
+</footer>
+<script>function setLang(lang){document.body.className='lang-'+lang;document.querySelectorAll('#lang-bar button').forEach(b=>b.classList.remove('active'));document.querySelector('#lang-bar button:'+(lang==='de'?'first-child':'last-child')).classList.add('active');document.documentElement.lang=lang;}</script>
+</body>
+</html>

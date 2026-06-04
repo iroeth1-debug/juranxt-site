@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verwaltung & Behörden — JuraNXT</title>
+  <style>
+    :root{--navy:#0f1f3d;--blue:#1a3a6b;--accent:#2a7de1;--teal:#00b4c8;--light:#f4f7fb;--white:#ffffff;--gray:#6b7a99;--text:#1a1f36;--radius:12px;--shadow:0 4px 24px rgba(10,30,70,.10);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',Arial,sans-serif;color:var(--text);background:var(--white);line-height:1.65;}
+    #lang-bar{background:var(--navy);display:flex;justify-content:flex-end;padding:.5rem 2rem;gap:.5rem;}
+    #lang-bar button{background:transparent;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);padding:.2rem .8rem;border-radius:20px;cursor:pointer;font-size:.82rem;transition:all .2s;}
+    #lang-bar button.active,#lang-bar button:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+    nav{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+    .logo{font-size:1.4rem;font-weight:800;color:#fff;text-decoration:none;}.logo span{color:var(--teal);}
+    .back-link{color:rgba(255,255,255,.8);text-decoration:none;font-size:.9rem;transition:color .2s;}
+    .back-link:hover{color:var(--teal);}
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,#1a4a8a 100%);color:#fff;padding:5rem 2rem 4rem;text-align:center;}
+    .hero-badge{display:inline-block;background:rgba(0,180,200,.18);border:1px solid rgba(0,180,200,.4);color:var(--teal);padding:.3rem 1rem;border-radius:20px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+    .hero h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.15;margin-bottom:1.2rem;}
+    .hero h1 em{font-style:normal;color:var(--teal);}
+    .hero p.lead{font-size:1.1rem;color:rgba(255,255,255,.82);max-width:580px;margin:0 auto 2.5rem;}
+    .btn-primary{background:var(--accent);color:#fff;padding:.85rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .2s;display:inline-block;margin:.4rem;}
+    .btn-primary:hover{background:var(--teal);color:var(--navy);}
+    .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);padding:.85rem 2rem;border-radius:8px;font-weight:600;font-size:1rem;text-decoration:none;transition:all .2s;display:inline-block;margin:.4rem;}
+    .btn-outline:hover{border-color:var(--teal);color:var(--teal);}
+    section{padding:5rem 2rem;}
+    .container{max-width:1100px;margin:0 auto;}
+    .section-label{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;}
+    h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:1rem;}
+    .section-intro{color:var(--gray);font-size:1.05rem;max-width:620px;margin-bottom:3rem;}
+    .schulungen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .schulung-card{background:var(--white);border:2px solid #e4eaf5;border-radius:var(--radius);padding:2rem;transition:all .25s;}
+    .schulung-card:hover{border-color:var(--accent);box-shadow:var(--shadow);}
+    .schulung-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--teal));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
+    .schulung-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
+    .schulung-card p{font-size:.88rem;color:var(--gray);}
+    .vorteile{background:var(--light);}
+    .vorteile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
+    .vorteil{text-align:center;padding:2rem 1rem;}
+    .vorteil-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .vorteil h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
+    .vorteil p{font-size:.88rem;color:var(--gray);}
+    .tools-section{background:var(--white);}
+    .tool-card{background:var(--light);border-radius:var(--radius);padding:1.8rem;border-left:4px solid var(--accent);margin-bottom:1rem;}
+    .tool-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
+    .tool-card p{font-size:.88rem;color:var(--gray);}
+    .cta-section{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;text-align:center;padding:5rem 2rem;}
+    .cta-section h2{color:#fff;margin-bottom:1rem;}
+    .cta-section p{color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 2.5rem;}
+    .cta-cards{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;max-width:800px;margin:0 auto;}
+    .cta-card{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:1.5rem;flex:1;min-width:180px;text-align:center;text-decoration:none;color:#fff;transition:all .2s;}
+    .cta-card:hover{background:rgba(255,255,255,.2);border-color:var(--teal);}
+    .cta-card .icon{font-size:2rem;margin-bottom:.7rem;display:block;}
+    .cta-card strong{display:block;font-weight:700;margin-bottom:.3rem;}
+    .cta-card small{color:rgba(255,255,255,.7);font-size:.82rem;}
+    footer{background:var(--navy);color:rgba(255,255,255,.6);padding:2.5rem 2rem;text-align:center;}
+    footer a{color:var(--teal);text-decoration:none;}
+    .footer-links{display:flex;gap:2rem;justify-content:center;margin:1.2rem 0;flex-wrap:wrap;}
+    .en{display:none;}
+    body.lang-en .de{display:none;}
+    body.lang-en .en{display:revert;}
+  </style>
+</head>
+<body>
+<div id="lang-bar">
+  <button class="active" onclick="setLang('de')">DE</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+<nav>
+  <a href="index.html" class="logo">Jura<span>NXT</span></a>
+  <a href="index.html" class="back-link de">← Zurück zur Startseite</a>
+  <a href="index.html" class="back-link en">← Back to home</a>
+</nav>
+
+<header class="hero">
+  <p class="hero-badge de">Verwaltung & Behörden</p>
+  <p class="hero-badge en">Public Administration</p>
+  <h1 class="de">Verwaltungsrecht.<br/><em>Praxisnah. Digital.</em></h1>
+  <h1 class="en">Administrative Law.<br/><em>Practical. Digital.</em></h1>
+  <p class="lead de">Schulungen und KI-Werkzeuge für Mitarbeitende der Öffentlichen Verwaltung — entwickelt von einem ehemaligen Bürgermeister mit fast 24 Jahren Verwaltungserfahrung.</p>
+  <p class="lead en">Training and AI tools for public sector employees — developed by a former mayor with almost 24 years of administrative experience.</p>
+  <a href="#schulungen" class="btn-primary de">Schulungsangebot</a>
+  <a href="#schulungen" class="btn-primary en">Training offer</a>
+  <a href="#anfrage" class="btn-outline de">Inhouse anfragen</a>
+  <a href="#anfrage" class="btn-outline en">Request in-house</a>
+</header>
+
+<section id="schulungen">
+  <div class="container">
+    <p class="section-label de">Schulungsangebot</p>
+    <p class="section-label en">Training offer</p>
+    <h2 class="de">Themen für die Praxis</h2>
+    <h2 class="en">Topics for practice</h2>
+    <p class="section-intro de">Alle Schulungen werden auf den konkreten Bedarf der Behörde zugeschnitten — als Präsenz- oder Online-Veranstaltung.</p>
+    <p class="section-intro en">All training sessions are tailored to the specific needs of the authority — in person or online.</p>
+    <div class="schulungen-grid">
+      <div class="schulung-card"><div class="schulung-icon">📋</div><h3 class="de">Allgemeines Verwaltungsrecht</h3><h3 class="en">General Administrative Law</h3><p class="de">Verwaltungsakt, Widerspruchsverfahren, Fristen, Zustellung — praxisorientiert für alle Verwaltungsebenen.</p><p class="en">Administrative acts, objection procedures, deadlines, service — practice-oriented for all administrative levels.</p></div>
+      <div class="schulung-card"><div class="schulung-icon">🔒</div><h3 class="de">Datenschutz & Datensicherheit</h3><h3 class="en">Data Protection & Security</h3><p class="de">DSGVO-Grundlagen, Betroffenenrechte, Meldepflichten und technisch-organisatorische Maßnahmen für Behörden.</p><p class="en">GDPR basics, data subject rights, reporting obligations and technical-organisational measures for authorities.</p></div>
+      <div class="schulung-card"><div class="schulung-icon">📝</div><h3 class="de">Bescheiderstellung</h3><h3 class="en">Decision Writing</h3><p class="de">Aufbau, Begründungspflicht und Rechtsmittelbelehrung — verständlich schreiben, rechtssicher formulieren.</p><p class="en">Structure, duty to state reasons and appeal instructions — writing clearly and legally soundly.</p></div>
+      <div class="schulung-card"><div class="schulung-icon">🌍</div><h3 class="de">Ausländer- & Aufenthaltsrecht</h3><h3 class="en">Immigration Law</h3><p class="de">Aufenthaltstitel, Statusveränderungen, Duldung — praxisnah mit dem KI-Tool BleibeKompass.</p><p class="en">Residence permits, status changes, toleration — hands-on with the BleibeKompass AI tool.</p></div>
+      <div class="schulung-card"><div class="schulung-icon">👨‍👩‍👧</div><h3 class="de">Sozialrecht SGB VIII / IX</h3><h3 class="en">Social Law SGB VIII / IX</h3><p class="de">Jugendhilfe, Eingliederungshilfe, Zuständigkeit und Leistungsgewährung aus dem Blickwinkel der Praxis.</p><p class="en">Youth welfare, integration assistance, responsibility and benefit entitlements from a practical perspective.</p></div>
+      <div class="schulung-card"><div class="schulung-icon">💻</div><h3 class="de">Digitale Sachbearbeitung</h3><h3 class="en">Digital Case Management</h3><p class="de">KI-Werkzeuge im Verwaltungsalltag — rechtssicher einsetzen, Chancen nutzen, Risiken kennen.</p><p class="en">AI tools in daily administrative work — using them legally, seizing opportunities, knowing risks.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="vorteile">
+  <div class="container">
+    <p class="section-label de">Warum JuraNXT?</p>
+    <p class="section-label en">Why JuraNXT?</p>
+    <h2 class="de">Kompetenz aus der Praxis</h2>
+    <h2 class="en">Expertise from practice</h2>
+    <div class="vorteile-grid">
+      <div class="vorteil"><div class="vorteil-icon">🏛️</div><h3 class="de">24 Jahre Bürgermeister</h3><h3 class="en">24 years as mayor</h3><p class="de">Jugendhilfe, Soziales, Schule, Wohnungsbau — gelebte Verwaltungspraxis.</p><p class="en">Youth welfare, social affairs, schools, housing — lived administrative practice.</p></div>
+      <div class="vorteil"><div class="vorteil-icon">⚖️</div><h3 class="de">Rechtsanwalt</h3><h3 class="en">Attorney at Law</h3><p class="de">Verwaltungsrecht, Sozialrecht, IT-Recht — aktuell zugelassen und praktisch tätig.</p><p class="en">Administrative law, social law, IT law — currently admitted and in practice.</p></div>
+      <div class="vorteil"><div class="vorteil-icon">🎓</div><h3 class="de">Dozent an 5 Hochschulen</h3><h3 class="en">Lecturer at 5 universities</h3><p class="de">Didaktisch erprobt, aktuell und verständlich erklärt.</p><p class="en">Didactically tested, current and clearly explained.</p></div>
+      <div class="vorteil"><div class="vorteil-icon">🤖</div><h3 class="de">KI-Entwickler</h3><h3 class="en">AI Developer</h3><p class="de">Eigene Tools für die Praxis — kein Buzzword-Bingo, sondern echte Anwendungen.</p><p class="en">Own tools for practice — no buzzword bingo, but real applications.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tools-section">
+  <div class="container">
+    <p class="section-label de">KI-Tools für Behörden</p>
+    <p class="section-label en">AI tools for authorities</p>
+    <h2 class="de">Digitale Unterstützung im Alltag</h2>
+    <h2 class="en">Digital support in everyday work</h2>
+    <p class="section-intro de">Zwei Werkzeuge, die direkt für die behördliche Praxis entwickelt wurden.</p>
+    <p class="section-intro en">Two tools developed directly for administrative practice.</p>
+    <div class="tool-card"><h3>BleibeKompass — <span class="de">Aufenthaltsrechtliche Statusnavigation</span><span class="en">Residence Status Navigation</span></h3><p class="de">Führt Sachbearbeitende systematisch durch den Entscheidungsbaum des Aufenthaltsrechts. Statusermittlung, Titelkategorien, mögliche Änderungen — strukturiert und nachvollziehbar.</p><p class="en">Guides case workers systematically through the immigration law decision tree. Status determination, permit categories, possible changes — structured and traceable.</p></div>
+    <div class="tool-card"><h3 class="de">Bescheid-Assistent (in Entwicklung)</h3><h3 class="en">Decision Assistant (in development)</h3><p class="de">KI-gestützte Überprüfung von Bescheidentwürfen auf formale Vollständigkeit, Begründungsqualität und Rechtsmittelbelehrung.</p><p class="en">AI-supported review of draft decisions for formal completeness, quality of reasoning and appeal instructions.</p></div>
+  </div>
+</section>
+
+<section id="anfrage" class="cta-section">
+  <div class="container">
+    <p class="section-label" style="color:var(--teal);">Kontakt</p>
+    <h2 class="de">Schulung anfragen</h2>
+    <h2 class="en">Request training</h2>
+    <p class="de">Inhouse-Schulung, Fachvortrag oder Lizenz für ein KI-Tool — sprechen Sie mich direkt an.</p>
+    <p class="en">In-house training, expert lecture or AI tool licence — contact me directly.</p>
+    <div class="cta-cards">
+      <a href="mailto:iroeth1@outlook.de?subject=Inhouse-Schulung Verwaltungsrecht&body=Hallo Herr Röthlingshöfer,%0D%0Awir interessieren uns für eine Inhouse-Schulung.%0D%0A%0D%0ABehörde/Organisation:%0D%0AThema:%0D%0AUmfang (Stunden/Tage):%0D%0APräferenz (Präsenz/Online):" class="cta-card">
+        <span class="icon">🏛️</span>
+        <strong class="de">Inhouse-Schulung</strong><strong class="en">In-house training</strong>
+        <small class="de">Maßgeschneidert für Ihre Behörde</small><small class="en">Tailored to your authority</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=Fachvortrag Verwaltung&body=Hallo Herr Röthlingshöfer," class="cta-card">
+        <span class="icon">🎤</span>
+        <strong class="de">Fachvortrag</strong><strong class="en">Expert lecture</strong>
+        <small class="de">Für Tagungen und Fortbildungen</small><small class="en">For conferences and training events</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=BleibeKompass Lizenz&body=Hallo Herr Röthlingshöfer," class="cta-card">
+        <span class="icon">🧭</span>
+        <strong>BleibeKompass</strong>
+        <small class="de">Tool-Lizenz anfragen</small><small class="en">Request tool licence</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="logo">Jura<span style="color:var(--teal)">NXT</span></a>
+  <p class="de">Juristische Digitalität · Ingo Röthlingshöfer, Rechtsanwalt</p>
+  <p class="en">Legal Digitality · Ingo Röthlingshöfer, Attorney at Law</p>
+  <div class="footer-links">
+    <a href="impressum.html" class="de">Impressum</a><a href="impressum.html" class="en">Legal Notice</a>
+    <a href="datenschutz.html" class="de">Datenschutz</a><a href="datenschutz.html" class="en">Privacy</a>
+    <a href="index.html" class="de">Startseite</a><a href="index.html" class="en">Home</a>
+  </div>
+  <p style="font-size:.8rem;margin-top:1rem;opacity:.5;">© 2026 Ingo Röthlingshöfer · Neustadt an der Weinstraße</p>
+</footer>
+<script>function setLang(lang){document.body.className='lang-'+lang;document.querySelectorAll('#lang-bar button').forEach(b=>b.classList.remove('active'));document.querySelector('#lang-bar button:'+(lang==='de'?'first-child':'last-child')).classList.add('active');document.documentElement.lang=lang;}</script>
+</body>
+</html>

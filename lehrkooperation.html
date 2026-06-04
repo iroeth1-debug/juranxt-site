@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lehrkooperation — JuraNXT</title>
+  <meta name="description" content="KI-gestützte Werkzeuge für die Rechtslehre. Lehraufträge, Gastvorträge und Tool-Lizenzen für Hochschulen und Dozenten — von Ingo Röthlingshöfer." />
+  <style>
+    :root {
+      --navy:    #0f1f3d;
+      --blue:    #1a3a6b;
+      --accent:  #2a7de1;
+      --teal:    #00b4c8;
+      --light:   #f4f7fb;
+      --white:   #ffffff;
+      --gray:    #6b7a99;
+      --text:    #1a1f36;
+      --radius:  12px;
+      --shadow:  0 4px 24px rgba(10,30,70,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.65;
+    }
+
+    /* ── LANGUAGE TOGGLE ─────────────────────── */
+    #lang-bar {
+      background: var(--navy);
+      display: flex;
+      justify-content: flex-end;
+      padding: .5rem 2rem;
+      gap: .5rem;
+    }
+    #lang-bar button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.35);
+      color: rgba(255,255,255,.8);
+      padding: .2rem .8rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      transition: all .2s;
+    }
+    #lang-bar button.active,
+    #lang-bar button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      background: var(--navy);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .logo {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.01em;
+      text-decoration: none;
+    }
+    .logo span { color: var(--teal); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: .92rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    nav ul a:hover { color: var(--teal); }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--white) !important;
+      padding: .45rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--teal); color: var(--navy) !important; }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, #1a4a8a 100%);
+      color: var(--white);
+      padding: 5rem 2rem 4.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      font-size: .88rem;
+      margin-bottom: 2rem;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--teal); }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,180,200,.18);
+      border: 1px solid rgba(0,180,200,.4);
+      color: var(--teal);
+      padding: .3rem 1rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      max-width: 820px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+    .hero p.lead {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.82);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      padding: .85rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all .2s;
+      border: 2px solid transparent;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--teal); color: var(--navy); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,.5);
+      padding: .85rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all .2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── SECTIONS ────────────────────────────── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-intro {
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 640px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── FACH-KACHELN ───────────────────────── */
+    .fach-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+    }
+    .fach-card {
+      background: var(--white);
+      border: 2px solid #e4eaf5;
+      border-radius: var(--radius);
+      padding: 1.8rem 1.5rem;
+      transition: all .25s;
+    }
+    .fach-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .fach-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .fach-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+    .fach-card p { font-size: .88rem; color: var(--gray); }
+
+    /* ── TOOL-CARDS (Lehre) ─────────────────── */
+    .lehre-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .lehre-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .lehre-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(10,30,70,.15); }
+    .lehre-card .tool-tag {
+      display: inline-block;
+      background: rgba(42,125,225,.12);
+      color: var(--accent);
+      padding: .15rem .65rem;
+      border-radius: 12px;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-bottom: .9rem;
+    }
+    .lehre-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+    .lehre-card p { font-size: .9rem; color: var(--gray); }
+
+    /* ── REFERENZEN ─────────────────────────── */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.25rem;
+    }
+    .ref-card {
+      background: var(--light);
+      border: 2px solid #e4eaf5;
+      border-radius: var(--radius);
+      padding: 1.8rem 1rem;
+      text-align: center;
+      transition: all .2s;
+    }
+    .ref-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+    .ref-logo {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.4rem;
+      color: var(--white);
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .ref-card h3 { font-size: .88rem; font-weight: 700; color: var(--navy); margin-bottom: .3rem; }
+    .ref-card p { font-size: .78rem; color: var(--gray); }
+
+    /* ── CTA NAVY ────────────────────────────── */
+    .cta-navy {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: var(--white);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .cta-navy .section-label { color: var(--teal); }
+    .cta-navy h2 { color: var(--white); margin-bottom: 1rem; }
+    .cta-navy p.lead { color: rgba(255,255,255,.78); max-width: 560px; margin: 0 auto 2.5rem; font-size: 1.08rem; }
+    .cta-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-option {
+      background: rgba(255,255,255,.08);
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      padding: 1.6rem 2rem;
+      flex: 1;
+      min-width: 180px;
+      max-width: 230px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--white);
+      transition: all .2s;
+    }
+    .cta-option:hover {
+      background: rgba(42,125,225,.25);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .cta-option .icon { font-size: 2rem; margin-bottom: .7rem; display: block; }
+    .cta-option strong { display: block; font-weight: 700; font-size: .95rem; margin-bottom: .3rem; }
+    .cta-option small { color: rgba(255,255,255,.6); font-size: .82rem; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.6);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    footer .logo { margin-bottom: 1rem; display: inline-block; }
+    footer p { font-size: .85rem; margin-bottom: .4rem; }
+    footer a { color: var(--teal); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 2rem; justify-content: center; margin: 1.5rem 0; flex-wrap: wrap; }
+
+    /* ── LANG VISIBILITY ─────────────────────── */
+    .en { display: none; }
+    body.lang-en .de { display: none; }
+    body.lang-en .en { display: revert; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .fach-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div id="lang-bar">
+  <button class="active" onclick="setLang('de')">DE</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">Jura<span>NXT</span></a>
+  <ul>
+    <li><a href="#lehrveranstaltungen" class="de">Angebot</a><a href="#lehrveranstaltungen" class="en">Offering</a></li>
+    <li><a href="#ki-werkzeuge" class="de">KI-Tools</a><a href="#ki-werkzeuge" class="en">AI Tools</a></li>
+    <li><a href="#referenzen" class="de">Referenzen</a><a href="#referenzen" class="en">References</a></li>
+    <li><a href="#kontakt" class="de nav-cta">Kooperation anfragen</a><a href="#kontakt" class="en nav-cta">Request Cooperation</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      ← <span class="de">Zurück zur Startseite</span><span class="en">Back to Home</span>
+    </a>
+
+    <p class="hero-badge de">Hochschulen &amp; Dozenten</p>
+    <p class="hero-badge en">Universities &amp; Lecturers</p>
+
+    <h1 class="de">Lehre auf dem<br/><em>nächsten Level</em></h1>
+    <h1 class="en">Teaching at the<br/><em>Next Level</em></h1>
+
+    <p class="lead de">KI-gestützte Werkzeuge für die Rechtslehre — entwickelt von einem Praktiker mit 24 Jahren Führungserfahrung und mehreren Lehraufträgen.</p>
+    <p class="lead en">AI-powered tools for legal education — developed by a practitioner with 24 years of leadership experience and multiple university teaching posts.</p>
+
+    <div class="hero-btns">
+      <a href="#kontakt" class="btn-primary de">Kooperation anfragen →</a>
+      <a href="#kontakt" class="btn-primary en">Request Cooperation →</a>
+      <a href="#ki-werkzeuge" class="btn-outline de">KI-Tools ansehen</a>
+      <a href="#ki-werkzeuge" class="btn-outline en">View AI Tools</a>
+    </div>
+  </div>
+</header>
+
+<!-- ABSCHNITT 1: LEHRVERANSTALTUNGSANGEBOT -->
+<section id="lehrveranstaltungen" style="background: var(--white);">
+  <div class="container">
+    <p class="section-label de">Lehrveranstaltungsangebot</p>
+    <p class="section-label en">Teaching Portfolio</p>
+    <h2 class="de">Fünf Rechtsgebiete. Aus der Praxis.</h2>
+    <h2 class="en">Five Fields of Law. From Real Practice.</h2>
+    <p class="section-intro de">Alle Lehrveranstaltungen verbinden rechtsdogmatische Grundlagen mit aktueller Rechtsprechung und praktischen Fallbeispielen aus kommunaler Führungsverantwortung und Anwaltstätigkeit.</p>
+    <p class="section-intro en">All courses combine legal doctrine with current case law and practical examples drawn from municipal leadership and legal practice.</p>
+
+    <div class="fach-grid">
+      <div class="fach-card">
+        <div class="fach-icon">🏛️</div>
+        <h3 class="de">Allgemeines Verwaltungsrecht</h3>
+        <h3 class="en">General Administrative Law</h3>
+        <p class="de">Verwaltungsakt, Ermessen, Verhältnismäßigkeit und Rechtsschutz — praxisnah mit Bescheidanalyse und Widerspruchsbearbeitung.</p>
+        <p class="en">Administrative acts, discretion, proportionality and legal remedy — practice-oriented with decision analysis and objection handling.</p>
+      </div>
+      <div class="fach-card">
+        <div class="fach-icon">👨‍👩‍👧</div>
+        <h3 class="de">Sozialrecht (SGB VIII/IX)</h3>
+        <h3 class="en">Social Law (SGB VIII/IX)</h3>
+        <p class="de">Kinder- und Jugendhilfe sowie Rehabilitation und Teilhabe aus behördlicher und anwaltlicher Perspektive — mit Aktenfallstudien.</p>
+        <p class="en">Child and youth welfare as well as rehabilitation and participation — from both administrative and legal perspectives, with case file studies.</p>
+      </div>
+      <div class="fach-card">
+        <div class="fach-icon">💻</div>
+        <h3 class="de">IT-Recht &amp; Datenschutz</h3>
+        <h3 class="en">IT Law &amp; Data Protection</h3>
+        <p class="de">DSGVO, Datenschutz-Folgenabschätzung, KI-Einsatz in Behörden und Unternehmen — mit konkreten Compliance-Szenarien.</p>
+        <p class="en">GDPR, data protection impact assessments, AI use in public authorities and companies — with concrete compliance scenarios.</p>
+      </div>
+      <div class="fach-card">
+        <div class="fach-icon">📜</div>
+        <h3>Erbrecht</h3>
+        <p class="de">Testament, Pflichtteil, Erbschaftsteuer und Testamentsvollstreckung — mit Fallbeispielen aus der anwaltlichen Beratungspraxis.</p>
+        <p class="en">Wills, compulsory shares, inheritance tax and estate administration — with examples from real advisory practice.</p>
+      </div>
+      <div class="fach-card">
+        <div class="fach-icon">📋</div>
+        <h3 class="de">Bescheiderstellung</h3>
+        <h3 class="en">Administrative Decision Drafting</h3>
+        <p class="de">Aufbau, Sprache und Rechtmäßigkeit von Verwaltungsentscheidungen — Praxisworkshop mit KI-Unterstützung für strukturiertes Schreiben.</p>
+        <p class="en">Structure, language and legality of administrative decisions — practice workshop with AI support for structured drafting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSCHNITT 2: KI-WERKZEUGE FÜR DIE LEHRE -->
+<section id="ki-werkzeuge" style="background: var(--light);">
+  <div class="container">
+    <p class="section-label de">KI-Werkzeuge für die Lehre</p>
+    <p class="section-label en">AI Tools for Teaching</p>
+    <h2 class="de">Weniger Aufwand. Mehr Wirkung.</h2>
+    <h2 class="en">Less Effort. Greater Impact.</h2>
+    <p class="section-intro de">Drei spezialisierte KI-Werkzeuge, die den Lehraufwand drastisch reduzieren und gleichzeitig die Qualität und Tiefe der Lehre steigern.</p>
+    <p class="section-intro en">Three specialised AI tools that dramatically reduce teaching workload while simultaneously increasing the quality and depth of instruction.</p>
+
+    <div class="lehre-grid">
+      <div class="lehre-card">
+        <span class="tool-tag de">Vorbereitung</span><span class="tool-tag en">Preparation</span>
+        <h3 class="de">Vorlesungsfolien-Generator</h3>
+        <h3 class="en">Lecture Slide Generator</h3>
+        <p class="de">Aus einem Fachthema — z. B. "Ermessensfehler im Verwaltungsrecht" — entstehen in Minuten strukturierte, didaktisch aufbereitete Präsentationen mit Lernzielen, Fallbeispielen und Merksätzen. Keine leere Folie mehr.</p>
+        <p class="en">From a legal topic — e.g. "Discretionary errors in administrative law" — the tool generates structured, pedagogically prepared presentations in minutes, including learning objectives, case examples and key takeaways. No more blank slides.</p>
+      </div>
+      <div class="lehre-card">
+        <span class="tool-tag de">Prüfung</span><span class="tool-tag en">Examination</span>
+        <h3 class="de">Klausur-Korrektur-Software</h3>
+        <h3 class="en">Exam Correction Software</h3>
+        <p class="de">KI-gestützte Auswertung handschriftlicher Klausuren: Scan hochladen, Korrekturschema hinterlegen, strukturierte Bewertung erhalten. Spart Stunden je Klausurgang und schafft transparente, nachvollziehbare Notenbegründungen.</p>
+        <p class="en">AI-powered evaluation of handwritten exams: upload the scan, set a correction rubric, receive structured scoring. Saves hours per exam session and produces transparent, comprehensible grade justifications.</p>
+      </div>
+      <div class="lehre-card">
+        <span class="tool-tag de">Lernmaterial</span><span class="tool-tag en">Learning Material</span>
+        <h3 class="de">Lernmodul-Generator</h3>
+        <h3 class="en">Learning Module Generator</h3>
+        <p class="de">Juristische Fachbücher, Aufsätze oder Gesetzestexte werden automatisch in kompakte Lernmodule transformiert: Kernaussagen, Prüfungsschemata, Fallübungen und Multiple-Choice-Fragen — fertig für die Lernplattform.</p>
+        <p class="en">Legal textbooks, articles or statutory texts are automatically transformed into compact learning modules: key points, examination schemas, case exercises and multiple-choice questions — ready for the learning platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSCHNITT 3: REFERENZEN -->
+<section id="referenzen" style="background: var(--white);">
+  <div class="container">
+    <p class="section-label de">Referenzen</p>
+    <p class="section-label en">References</p>
+    <h2 class="de">Vertrauen an diesen Hochschulen</h2>
+    <h2 class="en">Trusted at These Institutions</h2>
+    <p class="section-intro de">Lehraufträge und Kooperationen mit führenden Hochschulen in Rheinland-Pfalz und Baden-Württemberg.</p>
+    <p class="section-intro en">Teaching posts and cooperations with leading universities in Rhineland-Palatinate and Baden-Württemberg.</p>
+
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-logo">DH</div>
+        <h3>DHBW Mannheim</h3>
+        <p class="de">Duale Hochschule Baden-Württemberg</p>
+        <p class="en">Baden-Württemberg Cooperative State University</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-logo">SR</div>
+        <h3>SRH Heidelberg</h3>
+        <p class="de">SRH Hochschule Heidelberg</p>
+        <p class="en">SRH University Heidelberg</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-logo">RP</div>
+        <h3>RPTU</h3>
+        <p class="de">Kaiserslautern-Landau</p>
+        <p class="en">Kaiserslautern-Landau</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-logo">IB</div>
+        <h3>IBA Heidelberg</h3>
+        <p class="de">International Business Academy</p>
+        <p class="en">International Business Academy</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-logo">IU</div>
+        <h3>IU Mannheim</h3>
+        <p class="de">IU Internationale Hochschule</p>
+        <p class="en">IU International University</p>
+      </div>
+      <div class="ref-card">
+        <div class="ref-logo">DU</div>
+        <h3>DUV Speyer</h3>
+        <p class="de">Deutsche Universität für Verwaltungswissenschaften</p>
+        <p class="en">German University of Administrative Sciences</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSCHNITT 4: KONTAKT / CTA -->
+<section id="kontakt" class="cta-navy">
+  <div class="container">
+    <p class="section-label de">Kooperation anfragen</p>
+    <p class="section-label en">Request Cooperation</p>
+    <h2 class="de">Kooperation anfragen</h2>
+    <h2 class="en">Request Cooperation</h2>
+    <p class="lead de">Ob Lehrauftrag, Gastvortrag oder Tool-Lizenz für Ihre Hochschule — nehmen Sie direkt Kontakt auf. Antwort innerhalb von 48 Stunden.</p>
+    <p class="lead en">Whether a teaching post, guest lecture or tool licence for your institution — get in touch directly. Response within 48 hours.</p>
+
+    <div class="cta-options">
+      <a href="mailto:iroeth1@outlook.de?subject=Lehrauftrag-Anfrage&body=Guten%20Tag%20Herr%20R%C3%B6thlingsh%C3%B6fer%2C%0A%0Aich%20m%C3%B6chte%20einen%20Lehrauftrag%20anfragen." class="cta-option">
+        <span class="icon">📋</span>
+        <strong class="de">Lehrauftrag</strong><strong class="en">Teaching Post</strong>
+        <small class="de">Lehrveranstaltung anfragen</small>
+        <small class="en">Request a course</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=Gastvortrag-Anfrage&body=Guten%20Tag%20Herr%20R%C3%B6thlingsh%C3%B6fer%2C%0A%0Aich%20m%C3%B6chte%20einen%20Gastvortrag%20anfragen." class="cta-option">
+        <span class="icon">🎤</span>
+        <strong class="de">Gastvortrag</strong><strong class="en">Guest Lecture</strong>
+        <small class="de">Einzelvortrag buchen</small>
+        <small class="en">Book a one-off talk</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de?subject=Tool-Lizenz-Anfrage&body=Guten%20Tag%20Herr%20R%C3%B6thlingsh%C3%B6fer%2C%0A%0Aich%20m%C3%B6chte%20eine%20Tool-Lizenz%20f%C3%BCr%20unsere%20Hochschule%20anfragen." class="cta-option">
+        <span class="icon">🖥️</span>
+        <strong class="de">Tool-Lizenz</strong><strong class="en">Tool Licence</strong>
+        <small class="de">KI-Tools für Ihre HS</small>
+        <small class="en">AI tools for your institution</small>
+      </a>
+      <a href="mailto:iroeth1@outlook.de" class="cta-option">
+        <span class="icon">✉️</span>
+        <strong class="de">Sonstiges</strong><strong class="en">Other Enquiry</strong>
+        <small class="de">Allgemeine Anfrage</small>
+        <small class="en">General contact</small>
+      </a>
+    </div>
+
+    <p style="margin-top: 2.5rem; font-size: .88rem; color: rgba(255,255,255,.5);">
+      <span class="de">iroeth1@outlook.de</span>
+      <span class="en">iroeth1@outlook.de</span>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="logo" href="index.html">Jura<span style="color:var(--teal)">NXT</span></a>
+  <p class="de">Juristische Digitalität · KI-Innovation · Ingo Röthlingshöfer, Rechtsanwalt</p>
+  <p class="en">Legal Digitality · AI Innovation · Ingo Röthlingshöfer, Attorney at Law</p>
+  <div class="footer-links">
+    <a href="index.html" class="de">Startseite</a><a href="index.html" class="en">Home</a>
+    <a href="impressum.html" class="de">Impressum</a><a href="impressum.html" class="en">Legal Notice</a>
+    <a href="datenschutz.html" class="de">Datenschutz</a><a href="datenschutz.html" class="en">Privacy Policy</a>
+  </div>
+  <p style="font-size:.8rem;margin-top:1rem;opacity:.5;">© 2026 Ingo Röthlingshöfer · Neustadt an der Weinstraße</p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('#lang-bar button').forEach(b => b.classList.remove('active'));
+    document.querySelector('#lang-bar button:' + (lang === 'de' ? 'first-child' : 'last-child')).classList.add('active');
+    document.documentElement.lang = lang;
+  }
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
