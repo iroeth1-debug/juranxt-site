@@ -29,8 +29,11 @@
   <div id="pw-gate" style="position:fixed;inset:0;background:#0f1f3d;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Segoe UI',Arial,sans-serif;">
     <div style="text-align:center;max-width:380px;padding:2rem;">
       <div style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:.4rem;">Jura<span style="color:#00b4c8">NXT</span></div>
-      <p style="color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:2rem;">Vorschau &mdash; bitte Zugangscode eingeben</p>
-      <input id="pw-input" type="password" placeholder="Zugangscode" autocomplete="off"
+      <p style="color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:2rem;">Vorschau &mdash; bitte anmelden</p>
+      <input id="pw-user" type="text" placeholder="Benutzername" autocomplete="off"
+        style="width:100%;padding:.9rem 1.2rem;border-radius:8px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:1rem;outline:none;margin-bottom:.8rem;"
+        onkeydown="if(event.key==='Enter')checkPw()" />
+      <input id="pw-input" type="password" placeholder="Passwort" autocomplete="off"
         style="width:100%;padding:.9rem 1.2rem;border-radius:8px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:1rem;outline:none;margin-bottom:.8rem;"
         onkeydown="if(event.key==='Enter')checkPw()" />
       <div id="pw-err" style="color:#ff6b6b;font-size:.85rem;margin-bottom:.8rem;min-height:1.2em;"></div>
@@ -47,12 +50,13 @@
       }
     })();
     function checkPw(){
+      var u=document.getElementById("pw-user").value;
       var v=document.getElementById("pw-input").value;
-      if(v==="test test"){
+      if(u==="test" && v==="test"){
         sessionStorage.setItem("jnxt_ok","1");
         document.getElementById("pw-gate").style.display="none";
       } else {
-        document.getElementById("pw-err").textContent="Falscher Zugangscode.";
+        document.getElementById("pw-err").textContent="Falscher Benutzername oder falsches Passwort.";
         document.getElementById("pw-input").focus();
       }
     }
